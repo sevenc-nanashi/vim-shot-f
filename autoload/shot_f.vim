@@ -106,7 +106,6 @@ function! s:finalize()
   let &guicursor = s:gcr_save
   let &t_ve = s:t_ve_save
 endfunction
-
 function! s:highlight_one_of_each_char(forward, count)
   let line = getline('.')
   let col = col('.') - 1
@@ -125,7 +124,7 @@ function! s:highlight_one_of_each_char(forward, count)
   for cur_col in list
     let cur_char = line[cur_col]
     let char_dict[cur_char] = get(char_dict, cur_char, 0) + 1
-    if cur_char =~ '[\x01-\x7E]' && char_dict[cur_char] == a:count
+    if char_dict[cur_char] == a:count
       call matchadd(cur_char =~ '[[:blank:]]' ? 'ShotFBlank' : 'ShotFGraph', printf('\%%%dl\%%%dc', lnum, cur_col+1))
     endif
     let s:max_count = char_dict[cur_char] > s:max_count ? char_dict[cur_char] : s:max_count
