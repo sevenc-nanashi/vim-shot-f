@@ -61,7 +61,7 @@ function! s:shot_f(ft)
       endif
       let c = type(cn) == type(0) ? nr2char(cn) : cn
 
-      let ac = s:get_count_for_adding(c)
+      let ac = s:get_count_for_adding(c, a:ft)
       if ac == 0
         break
       endif
@@ -140,13 +140,16 @@ function! s:disable_highlight()
   endfor
 endfunction
 
-function! s:get_count_for_adding(c)
+function! s:get_count_for_adding(c, ft)
+  let is_backward = a:ft ==# 'F' || a:ft ==# 'T'
+  let should_reverse = exists('g:shot_f_reverse') && g:shot_f_reverse
+  let is_reverse = is_backward && should_reverse
   if exists('g:shot_f_increment_count_key') &&
     \a:c ==# g:shot_f_increment_count_key
-    return 1
+    return is_reverse ? -1 : 1
   elseif exists('g:shot_f_decrement_count_key') &&
     \a:c ==# g:shot_f_decrement_count_key
-    return -1
+    return is_reverse ? 1 : -1
   else
     return 0
   endif
