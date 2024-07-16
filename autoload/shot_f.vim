@@ -75,7 +75,7 @@ function! s:shot_f(ft)
       call s:disable_highlight()
     endwhile
 
-    if mode ==# 'n'
+    if mode ==# 'n' || mode ==# 'nt'
       if v:count >= 1
         return "\<Esc>" . cnt . a:ft . c
       endif
@@ -106,6 +106,7 @@ function! s:finalize()
   let &guicursor = s:gcr_save
   let &t_ve = s:t_ve_save
 endfunction
+
 function! s:highlight_one_of_each_char(forward, count)
   let line = getline('.')
   let col = col('.') - 1
